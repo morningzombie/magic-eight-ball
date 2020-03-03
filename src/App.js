@@ -13,14 +13,26 @@ const App = () => {
     axios.get("/api/questions").then(response => setQuestions(response.data));
   }, []);
 
-  return (
+  //console.log("ANSWERS", answers[0]);
+//console.log(Object.values(answers[0]));
+
+
+const randomAnswer = answers[Math.floor(Math.random() * answers.length)];
+console.log("HERE", randomAnswer)
+
+
+
+return (
     <div>
       <div>Magic Eight Ball</div>
+
       <ul>
-        {answers.map(answer => {
+          {answers.map(answer => {
           return <li key={answer.id}>{answer.name}</li>;
         })}
       </ul>
+
+     
     </div>
   );
 };
