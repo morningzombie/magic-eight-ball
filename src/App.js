@@ -40,15 +40,35 @@ const App = () => {
     createAnswer({ name });
   };
 
-  return (
+  //console.log("ANSWERS", answers[0]);
+//console.log(Object.values(answers[0]));
+
+
+const randomAnswer = answers[Math.floor(Math.random() * answers.length)];
+console.log("HERE", randomAnswer)
+
+
+
+return (
     <div>
       <div>Magic Eight Ball</div>
+<<<<<<< HEAD
       <form onSubmit={onSubmit}>
         <h2>Add Answer</h2>
         <input value={name} onChange={ev => setName(ev.target.value)} />
         <button>Create</button>
       </form>
       <button onClick={() => randomAnswer()}>Click</button>
+=======
+
+      <ul>
+          {answers.map(answer => {
+          return <li key={answer.id}>{answer.name}</li>;
+        })}
+      </ul>
+
+     
+>>>>>>> a3b3c8678305b507df89de7c8644c95562fadcfc
     </div>
   );
 };
