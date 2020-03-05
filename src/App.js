@@ -3,72 +3,88 @@ import axios from "axios";
 
 const App = () => {
   const [answers, setAnswers] = useState([]);
+  const [name, setName] = useState("");
+  const [decision, setDecision] = useState("");
+  const [numbers, setNumbers] = useState([], { id: 0, value: "" });
 
   useEffect(() => {
     axios.get("/api/answers").then(response => setAnswers(response.data));
   }, []);
-  // useEffect(() => {
-  //   axios
-  //     .get("/api/answers")
-  //     .then(response =>
-  //       setAnswer(
-  //         response.data[Math.floor(Math.random() * response.data.length)].name
-  //       )
-  //     );
-  // }, []);
 
   const randomAnswer = () => {
     let rand = answers[Math.floor(Math.random() * answers.length)].name;
     console.log(rand);
-  };
-  //const randomAnswer = answers[Math.floor(Math.random() * answers.length)];
+    setDecision(rand);
+    setNumbers([...numbers, { id: numbers.length, value: rand }]);
 
-  const createAnswer = async answer => {
-    try {
-      const created = (await axios.post("/api/answers", answer)).data;
-      setAnswers([...answers, created]);
-      setError("");
-    } catch (ex) {
-      setError(ex.response.data.message);
-    }
+    console.log(...numbers);
   };
 
-  // const AnswerForm = ({ createAnswer }) => {
-  const [name, setName] = useState("");
-  const onSubmit = ev => {
+  const unique = [...new Set(numbers.map(number => number.value))];
+
+  // const mostReturns = numbers.reduce((total, val) => {
+  //   total[val] = (total[val] || 0) + 1;
+  // });
+  // console.log(mostReturns);
+
+  const toggle = answer => {
+    const updated = { ...answer, archived: !answer.archived };
+    axios.put(`/api/answers/${answer.id}`, updated).then(response => {
+      setAnswers(answers.map(n => (n.id === answer.id ? response.data : n)));
+    });
+  };
+
+  const destroy = answerToDestroy => {
+    axios
+      .delete(`/api/answers/${answerToDestroy.id}`)
+      .then(() =>
+        setAnswers(answers.filter(answer => answer.id !== answerToDestroy.id))
+      );
+  };
+
+  const create = ev => {
     ev.preventDefault();
-    createAnswer({ name });
+    axios
+      .post("/api/answers", { name })
+      .then(response => setAnswers([response.data, ...answers]))
+      .then(() => setName(""));
   };
 
-  //console.log("ANSWERS", answers[0]);
-//console.log(Object.values(answers[0]));
-
-
-const randomAnswer = answers[Math.floor(Math.random() * answers.length)];
-console.log("HERE", randomAnswer)
-
-
-
-return (
+  return (
     <div>
-      <div>Magic Eight Ball</div>
-<<<<<<< HEAD
-      <form onSubmit={onSubmit}>
-        <h2>Add Answer</h2>
-        <input value={name} onChange={ev => setName(ev.target.value)} />
-        <button>Create</button>
-      </form>
-      <button onClick={() => randomAnswer()}>Click</button>
-=======
+      <h1 className="title">Magic Eight Ball</h1>
+      <div>
+        <button onClick={() => randomAnswer()}>Click</button>
+        <div className="circle">
+          <p className="triangle-up">{decision}</p>
+        </div>
+        {numbers.length} total answers and {unique.length} unique answers and
+        {/* most returns {mostReturns} */}
+      </div>
+      <div className="container">
+        <section>
+          <form onSubmit={create}>
+            <h2>Add Your Own Answer</h2>
+            <input value={name} onChange={ev => setName(ev.target.value)} />
+            <button onClick={create}>Create</button>
+            <br />
+          </form>
 
-      <ul>
-          {answers.map(answer => {
-          return <li key={answer.id}>{answer.name}</li>;
-        })}
-      </ul>
-
-     
->>>>>>> a3b3c8678305b507df89de7c8644c95562fadcfc
+          <ul>
+            {answers.map(answer => {
+              return (
+                <li
+                  className={answer.archived ? "archived" : ""}
+                  key={answer.id}
+                >
+                  <span onClick={() => toggle(answer)}>{answer.name}</span>
+                  <button onClick={() => destroy(answer)}>x</button>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      </div>
     </div>
   );
 };

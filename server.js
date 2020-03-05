@@ -1,14 +1,55 @@
 const express = require("express");
+const app = express();
 const path = require("path");
 const db = require("./db");
-
-const app = express();
+app.use(express.json());
 
 app.use("/dist", express.static(path.join(__dirname, "dist")));
+app.use(express.static(__dirname + "/assets"));
+
+//app.use("/assets", express.static(path.join(__dirname, "assets")));
 
 app.get("/", (req, res, next) =>
   res.sendFile(path.join(__dirname, "index.html"))
 );
+
+// app.post("/api/answers", async (req, res, next) => {
+//   try {
+//     const answer = { ...req.body, id: uuid() };
+//     const answers = await readJSON("./answers.json");
+//     answers.unshift(answer);
+//     await writeJSON("./answers.json", answers);
+//     res.status(201).send(answer);
+//   } catch (ex) {
+//     next(ex);
+//   }
+// });
+app.post("/api/answers", (req, res, next) => {
+  db.create(req.body)
+    .then(answer => {
+      res.send(answer);
+    })
+    .catch(next);
+});
+
+// app.put("/api/answers/:id", async (req, res, next) => {
+//   try {
+//     let answers = await readJSON("./answers.json");
+//     answers = answers.map(answer =>
+//       answer.id === req.body.id ? req.body : answer
+//     );
+//     await writeJSON("./answers.json", answers);
+//     res.send(req.body);
+//   } catch (ex) {
+//     next(ex);
+//   }
+// });
+
+app.delete("/api/answers/:id", (req, res, next) => {
+  db.deleteAnswer(req.params.id)
+    .then(() => res.sendStatus(204))
+    .catch(next);
+});
 
 app.get("/api/answers", (req, res, next) => {
   db.readAnswers()
@@ -17,15 +58,8 @@ app.get("/api/answers", (req, res, next) => {
     })
     .catch(next);
 });
-app.post("/api/answers", (req, res, next) => {
-  db.createAnswer()
-    .then(answer => {
-      res.send(answer);
-    })
-    .catch(next);
-});
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8081;
 
 db.sync()
   .then(() => {
