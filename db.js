@@ -16,7 +16,8 @@ const sync = async () => {
 
   CREATE TABLE answers(
       id UUID PRIMARY KEY default uuid_generate_v4(),
-      name VARCHAR(100) NOT NULL
+      name VARCHAR(100) NOT NULL,
+      CHECK (char_length(name)>0)
       );
 
   CREATE TABLE questions(
@@ -43,7 +44,7 @@ const sync = async () => {
       INSERT INTO answers (name) VALUES ('Ask again later');
       INSERT INTO answers (name) VALUES ('Better not tell you now');
       INSERT INTO answers (name) VALUES ('Cannot predict now');
-      INSERT INTO answers (name) VALUES ('Concentrate and ask again');
+      INSERT INTO answers (name) VALUES ('Focus and ask again');
 
       INSERT INTO answers (name) VALUES ('Dont count on it');
       INSERT INTO answers (name) VALUES ('My reply is no');

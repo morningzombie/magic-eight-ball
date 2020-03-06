@@ -50,40 +50,78 @@ const App = () => {
       .then(() => setName(""));
   };
 
-  return (
-    <div>
-      <h1 className="title">Magic Eight Ball</h1>
-      <div>
-        <button onClick={() => randomAnswer()}>Click</button>
-        <div className="circle">
-          <p className="triangle-up">{decision}</p>
-        </div>
-        {numbers.length} total answers and {unique.length} unique answers and
-        {/* most returns {mostReturns} */}
-      </div>
-      <div className="container">
-        <section>
-          <form onSubmit={create}>
-            <h2>Add Your Own Answer</h2>
-            <input value={name} onChange={ev => setName(ev.target.value)} />
-            <button onClick={create}>Create</button>
-            <br />
-          </form>
+  const check = ev => {
+    if ($("#newAnswer").val().length < 0) {
+      $("#submit").prop("disabled");
+    }
+  };
 
-          <ul>
-            {answers.map(answer => {
-              return (
-                <li
-                  className={answer.archived ? "archived" : ""}
-                  key={answer.id}
-                >
-                  <span onClick={() => toggle(answer)}>{answer.name}</span>
-                  <button onClick={() => destroy(answer)}>x</button>
-                </li>
-              );
-            })}
-          </ul>
-        </section>
+  return (
+    <div className="stars">
+      <div className="twinkling">
+        <div className="container">
+          <div className="content">
+            <h1>Magic Eight Ball</h1>
+            <div className="">
+              <span onClick={() => randomAnswer()}>
+                <div className="big-ball">
+                  <div className="circle">
+                    <div className="triangle">
+                      <div className="restrictWidth">
+                        <div className="text">{decision}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </span>
+              <p>
+                {numbers.length} total answers and {unique.length} unique
+                answers and{" "}
+              </p>
+              {/* most returns {mostReturns} */}
+            </div>
+
+            <div className="container">
+              <section>
+                <form onSubmit={create}>
+                  <h3>Add Your Own Answer</h3>
+                  <div className="box">
+                    <input
+                      value={name}
+                      type="text"
+                      id="newAnswer"
+                      onKeyUp={ev => check()}
+                      onChange={ev => setName(ev.target.value)}
+                    />
+                    <button className="createButton" onClick={create}>
+                      Create
+                    </button>
+                  </div>
+                </form>
+
+                <div>
+                  {answers.map(answer => {
+                    return (
+                      <span
+                        className="listAnswers"
+                        // className={answer.archived ? "archived" : ""}
+                        key={answer.id}
+                      >
+                        <span onClick={() => toggle(answer)}>
+                          &nbsp;{answer.name}&nbsp;
+                        </span>
+                        <button
+                          className="destroyButton"
+                          onClick={() => destroy(answer)}
+                        ></button>
+                      </span>
+                    );
+                  })}
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,156 @@
-body {
-  font-family: verdana;
+* {
   margin: 0;
+  padding: 0;
 }
+/* body,
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica", sans-serif;
+  background: rgb(26, 188, 156);
+  background: -moz-linear-gradient(
+    -45deg,
+    rgba(26, 188, 156, 1) 0%,
+    rgba(142, 68, 173, 1) 100%
+  );
+  background: -webkit-linear-gradient(
+    -45deg,
+    rgba(26, 188, 156, 1) 0%,
+    rgba(142, 68, 173, 1) 100%
+  );
+  background: linear-gradient(
+    135deg,
+    rgba(26, 188, 156, 1) 0%,
+    rgba(142, 68, 173, 1) 100%
+  );
+} */
+
+h1 {
+  margin: 10px 0 0 0;
+  color: #eeeeee;
+  font-size: 60px;
+  font-family: "Berkshire Swash", cursive;
+  text-shadow: #000 5px 5px 5px;
+}
+
+h3 {
+  font-size: 30px;
+  font-family: "Berkshire Swash", cursive;
+  text-shadow: #000 5px 5px 5px;
+}
+
+p {
+  font-size: 20px;
+  font-weight: light;
+  color: #666;
+  text-align: center;
+  padding: 70px 0;
+  float: auto;
+}
+
+@keyframes float {
+  0% {
+    transform: rotateZ(0) rotateY(15deg) translateZ(6.8vmin) rotateZ(0);
+  }
+  to {
+    transform: rotateZ(1turn) rotateY(15deg) translateZ(6.8vmin) rotateZ(-1turn);
+  }
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px 40px;
+  box-sizing: border-box;
+  text-align: center;
+  margin-top: 20px;
+}
+
+div {
+  text-align: center;
+  color: #fff;
+  font-size: 1.125em;
+  width: 100%;
+}
+div.big-ball {
+  position: relative;
+  border-radius: 50%;
+  background: radial-gradient(#000, #000, #333);
+  width: 410px;
+  height: 410px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  box-shadow: 0px 0px 9px 4px #292f6b;
+  animation: glow 1.5s linear infinite alternate;
+}
+@keyframes glow {
+  to {
+    box-shadow: 0px 0px 30px 20px #292f6b;
+  }
+}
+div.circle {
+  position: relative;
+  top: 20%;
+  left: 20%;
+  border-radius: 50%;
+  background-color: #061430;
+  width: 250px;
+  height: 250px;
+  border: 2px solid #1d214e;
+  cursor: hand;
+}
+
+div.triangle {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 0;
+  height: 0;
+  border-left: 95px solid transparent;
+  border-right: 95px solid transparent;
+  border-bottom: 150px solid #123169;
+  transform: translatey(0px);
+  animation: float 6s ease-in-out infinite;
+}
+div.text {
+  position: absolute;
+  flex-wrap: wrap;
+  align-content: center;
+  text-align: center;
+  bottom: -120px;
+  left: -30px;
+  right: -30px;
+  width: auto;
+  height: auto;
+
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  font-family: Arial, Helvetica, sans-serif;
+}
+/* div.text {
+  position: absolute;
+  bottom: -126px;
+  left: -126px;
+  right: -126px;
+  width: auto;
+  height: auto;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  font-family: Arial, Helvetica, sans-serif;
+} */
 
 .triangle-up {
   width: 0;
@@ -31,14 +180,152 @@ body {
   border-left: 50px solid #555;
   border-bottom: 25px solid transparent;
 }
-.circle {
-  height: 300px;
-  width: 300px;
-  background-color: #333;
+.listAnswers {
+  font-size: 0.7rem;
+  color: rgb(189, 186, 186);
+  font-family: Arial, Helvetica, sans-serif;
+  margin-top: 10px;
+}
+.destroyButton {
   border-radius: 50%;
+  background-color: rgba(26, 188, 156, 1);
+  border: 1px solid rgba(26, 188, 156, 1);
+  color: #fff;
+  box-shadow: #333 5px;
+  height: 10px;
+  width: 10px;
 }
-.title {
-  color: red;
+
+.restrictWidth {
+  width: 50%;
 }
-/*
-https://codepen.io/finnhvman/pen/wrLPJz */
+.white-space-pre {
+  white-space: pre-wrap;
+}
+.box {
+  height: 1.5rem;
+  margin-top: 5px;
+
+  margin-bottom: 15px;
+}
+input {
+  width: 80%;
+  height: 100%;
+  font-size: 1rem;
+  align-items: flex-start;
+}
+.createButton {
+  width: 15%;
+  height: 99%;
+  background-color: rgba(26, 188, 156, 1);
+  border: 1px solid rgba(26, 188, 156, 1);
+  color: #fff;
+  align-items: flex-end;
+}
+
+/* ================== STARS ====================== */
+@keyframes move-twink-back {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -10000px 5000px;
+  }
+}
+@-webkit-keyframes move-twink-back {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -10000px 5000px;
+  }
+}
+@-moz-keyframes move-twink-back {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -10000px 5000px;
+  }
+}
+@-ms-keyframes move-twink-back {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -10000px 5000px;
+  }
+}
+
+@keyframes move-clouds-back {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 10000px 0;
+  }
+}
+@-webkit-keyframes move-clouds-back {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 10000px 0;
+  }
+}
+@-moz-keyframes move-clouds-back {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 10000px 0;
+  }
+}
+@-ms-keyframes move-clouds-back {
+  from {
+    background-position: 0;
+  }
+  to {
+    background-position: 10000px 0;
+  }
+}
+
+.stars,
+.twinkling,
+.clouds {
+  width: 100%;
+  height: 100%;
+}
+
+.stars {
+  background: #000
+    url(http://www.script-tutorials.com/demos/360/images/stars.png) repeat top
+    center;
+  z-index: 0;
+}
+
+.twinkling {
+  background: transparent
+    url(http://www.script-tutorials.com/demos/360/images/twinkling.png) repeat
+    top center;
+  z-index: 1;
+
+  -moz-animation: move-twink-back 200s linear infinite;
+  -ms-animation: move-twink-back 200s linear infinite;
+  -o-animation: move-twink-back 200s linear infinite;
+  -webkit-animation: move-twink-back 200s linear infinite;
+  animation: move-twink-back 200s linear infinite;
+}
+
+.clouds {
+  background: transparent
+    url(http://www.script-tutorials.com/demos/360/images/clouds3.png) repeat top
+    center;
+  z-index: 3;
+
+  -moz-animation: move-clouds-back 200s linear infinite;
+  -ms-animation: move-clouds-back 200s linear infinite;
+  -o-animation: move-clouds-back 200s linear infinite;
+  -webkit-animation: move-clouds-back 200s linear infinite;
+  animation: move-clouds-back 200s linear infinite;
+}
