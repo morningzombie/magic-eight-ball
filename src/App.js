@@ -6,6 +6,7 @@ const App = () => {
   const [name, setName] = useState("");
   const [decision, setDecision] = useState("");
   const [numbers, setNumbers] = useState([], { id: 0, value: "" });
+  const [allResults, setAllResults] = useState([])
 
   useEffect(() => {
     axios.get("/api/answers").then(response => setAnswers(response.data));
@@ -13,19 +14,56 @@ const App = () => {
 
   const randomAnswer = () => {
     let rand = answers[Math.floor(Math.random() * answers.length)].name;
-    console.log(rand);
     setDecision(rand);
+    setAllResults(allResults => [...allResults, rand]);
     setNumbers([...numbers, { id: numbers.length, value: rand }]);
-
-    console.log(...numbers);
   };
+ const unique = [...new Set(numbers.map(number => number.value))];
+//console.log("allResults", allResults)
 
-  const unique = [...new Set(numbers.map(number => number.value))];
 
-  // const mostReturns = numbers.reduce((total, val) => {
-  //   total[val] = (total[val] || 0) + 1;
-  // });
-  // console.log(mostReturns);
+let mostResults
+// let mostFeatured = 1;
+// let count = 0;
+// let item;
+// for (let i=0; i<allResults.length; i++)
+// {
+//         for (let j=i; j<allResults.length; j++)
+//         {
+//                 if (allResults[i] == allResults[j])
+//                  count++;
+//                 if (mostFeatured<count)
+//                 {
+//                   mostFeatured=count; 
+//                   item = allResults[i];
+//                 }
+//         }
+//         count=0;
+// }
+var counts = {}; //We are going to count occurrence of item here
+var compare = 0;  //We are going to compare using stored value
+var mostFrequent;  //We are going to store most frequent item
+
+for(var i = 0, len = allResults.length; i < len; i++){
+  var word = allResults[i];
+
+  if(counts[word] === undefined){ //if count[word] doesn't exist
+     counts[word] = 1;    //set count[word] value to 1
+  }else{                  //if exists
+     counts[word] = counts[word] + 1; //increment existing value
+  }
+  if(counts[word] > compare){  //counts[word] > 0(first time)
+     compare = counts[word];   //set compare to counts[word]
+     mostFrequent = allResults[i];  //set mostFrequent value
+  }
+}
+
+//console.log(`${item} ( ${mostFeatured} times ) `);
+//console.log(item)
+//const mostReturns = `${item} ( ${mostFeatured} times ) `
+if (compare>1){
+ mostResults = `"${mostFrequent}" is the most popular prediction at ${compare} times `
+}
 
   const toggle = answer => {
     const updated = { ...answer, archived: !answer.archived };
@@ -50,11 +88,12 @@ const App = () => {
       .then(() => setName(""));
   };
 
-  const check = ev => {
-    if ($("#newAnswer").val().length < 0) {
-      $("#submit").prop("disabled");
-    }
-  };
+  // const check = ev => {
+  //   {
+  //   if ($("#newAnswer").val().length < 0) {
+  //     $("#submit").prop("disabled");
+  //   }
+  // }};
 
   return (
     <div className="stars">
@@ -76,7 +115,7 @@ const App = () => {
               </span>
               <p>
                 {numbers.length} total answers and {unique.length} unique
-                answers and{" "}
+                <br />{mostResults}
               </p>
               {/* most returns {mostReturns} */}
             </div>
@@ -88,9 +127,9 @@ const App = () => {
                   <div className="box">
                     <input
                       value={name}
-                      type="text"
-                      id="newAnswer"
-                      onKeyUp={ev => check()}
+                      // type="text"
+                      // id="newAnswer"
+                      // onKeyUp={ev => check()}
                       onChange={ev => setName(ev.target.value)}
                     />
                     <button className="createButton" onClick={create}>

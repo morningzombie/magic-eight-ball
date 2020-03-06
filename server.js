@@ -7,23 +7,10 @@ app.use(express.json());
 app.use("/dist", express.static(path.join(__dirname, "dist")));
 app.use(express.static(__dirname + "/assets"));
 
-//app.use("/assets", express.static(path.join(__dirname, "assets")));
-
 app.get("/", (req, res, next) =>
   res.sendFile(path.join(__dirname, "index.html"))
 );
 
-// app.post("/api/answers", async (req, res, next) => {
-//   try {
-//     const answer = { ...req.body, id: uuid() };
-//     const answers = await readJSON("./answers.json");
-//     answers.unshift(answer);
-//     await writeJSON("./answers.json", answers);
-//     res.status(201).send(answer);
-//   } catch (ex) {
-//     next(ex);
-//   }
-// });
 app.post("/api/answers", (req, res, next) => {
   db.create(req.body)
     .then(answer => {
@@ -59,7 +46,7 @@ app.get("/api/answers", (req, res, next) => {
     .catch(next);
 });
 
-const port = process.env.PORT || 8081;
+const port = process.env.PORT || 8080;
 
 db.sync()
   .then(() => {
